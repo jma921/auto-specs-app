@@ -1,0 +1,40 @@
+{
+  "name": "auto-app",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "enzyme": "^2.5.1",
+    "react-addons-test-utils": "^15.3.2",
+    "react-scripts": "0.7.0",
+    "react-test-renderer": "^15.3.2"
+  },
+  "dependencies": {
+    "axios": "^0.14.0",
+    "bootstrap": "4.0.0-alpha.5",
+    "clipboard": "^1.5.15",
+    "loading-svg": "^1.0.0",
+    "re-base": "^2.2.0",
+    "react": "^15.3.2",
+    "react-addons-css-transition-group": "^15.3.2",
+    "react-addons-transition-group": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-popover": "^0.4.4",
+    "react-router": "^2.8.1",
+    "react-select": "^1.0.0-rc.2",
+    "reactstrap": "^3.7.0"
+  },
+  "jest": {
+    "unmockedModulePathPatterns": [
+      "node_modules/react/",
+      "node_modules/enzyme/"
+    ]
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "compile": "sass --update node_modules/bootstrap/scss/bootstrap.scss:src/bootstrap.css",
+    "deploy": "npm run build && firebase deploy"  
+  }
+}
