@@ -41,7 +41,6 @@ class Home extends Component {
         }
     };
     setYear = (e) => {
-        console.log(e);
         if (e === null) {
             this.setState({
                 year: null,
@@ -87,7 +86,6 @@ class Home extends Component {
             })
             return false;
         }
-        console.log(e.value);
         this.setState({
             make: e.value,
             modelsLoading: true            
@@ -142,7 +140,6 @@ class Home extends Component {
             engine: e.value,            
             engineSizeFormatted: engineSizeFormatted
         })
-        console.log(`${this.state.year}/${this.state.make}/${this.state.model}/${this.state.engine}`);
         base.bindToState(`${this.state.year}/${this.state.make}/${this.state.model}/${e.value}`, {
             context: this,
             state: 'specs',
@@ -171,18 +168,15 @@ class Home extends Component {
         })
         const vinNumber = this.refs.vinNumber.value;
         if (vinNumber.length < 17) {
-            console.log('too short');
             this.setState({
                 loading: null,
                 error: 'VIN number must be 17 characters long.'                
             })
         } else {
-            const vinDecodeUrl = `https://api.edmunds.com/v1/api/toolsrepository/vindecoder?vin=${vinNumber}&fmt=json&api_key=29ff5stvmzxbsz7e782jtcpw`;
-            console.log(vinDecodeUrl);
+            const vinDecodeUrl = `https://api.edmunds.com/v1/api/toolsrepository/vindecoder?vin=${vinNumber}&fmt=json&api_key=${process.env.REACT_APP_EDMUNDS_KEY}`;
             axios.get(vinDecodeUrl)
                 .then(response => {
                     const data = response.data.styleHolder[0];
-                    console.log(response);
                     let engineSize;
                     if (data.engineSize.toString().length === 1) {
                         engineSize = `${data.engineSize}.0`;

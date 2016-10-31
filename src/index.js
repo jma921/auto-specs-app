@@ -6,7 +6,6 @@ import Home from './Home';
 import NoMatch from './NoMatch';
 import 'clipboard/lib/clipboard.js';
 import './bootstrap.css';
-// import 'bootstrap/js/dist/popover.js';
 import 'react-select/dist/react-select.css';
 import './index.css';
 
