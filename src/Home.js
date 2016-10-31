@@ -53,6 +53,7 @@ class Home extends Component {
                 availableModels: null,
                 showSpecs: null 
             })
+            this.refs.vinNumber.value = '';
             return false;
         } 
         this.setState({            
@@ -84,6 +85,7 @@ class Home extends Component {
                 availableModels: null,
                 showSpecs: null 
             })
+            this.refs.vinNumber.value = '';
             return false;
         }
         this.setState({
@@ -109,6 +111,7 @@ class Home extends Component {
                 availableEngines: null,
                 showSpecs: null 
             })
+            this.refs.vinNumber.value = '';
             return false;
         }
         this.setState({
@@ -132,6 +135,7 @@ class Home extends Component {
                 engine: null,
                 showSpecs: null 
             })
+            this.refs.vinNumber.value = '';
             return false;
         }
         const engineSizeFormatted = e.value.replace(',', '.');
@@ -261,7 +265,7 @@ class Home extends Component {
         }
         return (
             <div>
-                <div className="row m-t-2">                    
+                <div className="row mt-3">                    
                     <div className="col-xs-12 hidden-print">                                                                                      
                         <form className="col-sm-4 offset-sm-4" onSubmit={this.submitVin}>
                             <div className="form-group">
@@ -272,11 +276,12 @@ class Home extends Component {
                                                     : null}
                             </div>
                             <div className="form-group">
-                                <label className="control-label" htmlFor="vinNumber">VIN Number</label>
-                                <input className="form-control" type="text" ref="vinNumber" />
+                                <h3>Enter VIN Number</h3>
+                                <input className="form-control" type="text" ref="vinNumber" />                                
                             </div>
                             <div className="form-group">
-                                <input className="btn btn-primary" type="submit" value="Submit" />
+                                
+                                <button className="btn btn-primary" type="submit"><i className="fa fa-check"></i> Submit</button>
                             </div>                   
                         </form>
                     </div>
