@@ -1,14 +1,14 @@
-// jest.mock('react-dom');
-
+import sinon from 'sinon';
 import React from 'react';
-// import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
+import Clipboard from 'clipboard';
+jest.unmock('Tooltip');
+import { Tooltip } from 'reactstrap';
 import Specifications from './Specifications';
 
 const specs = {
     "oilCap": "5.3",    
 };
-
 
 const wrapper = mount(<Specifications make="Acura" model="ILX" year="2013" engine="2.0" data={specs} />);
 
@@ -36,6 +36,4 @@ it('engine should be 2.0', () => {
 
 it('data.oilCap should be 5.3', () => {  
   expect(wrapper.props().data.oilCap).toBe("5.3");
-  const j = jest.fn();
-  console.log(j);  
 });
