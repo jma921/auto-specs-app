@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 
 class Navbar extends Component {
     render() {
+        const backgroundColor = `background-color: #${this.props.color}`;
         return (
             <div>
-                <nav className="navbar navbar-dark bg-primary">
+                <nav className="navbar navbar-dark" style={{backgroundColor: this.props.backgroundColor}}>
                     <a className="navbar-brand" href="#">Specs App</a>
                     <ul className="nav navbar-nav">
                         <li className="nav-item active">
