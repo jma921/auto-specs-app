@@ -238,7 +238,6 @@ class Home extends Component {
         function logChange(val) {
             console.log("Selected: " + val);
         }
-        // let availableMakes = this.state.availableMakes ? this.state.availableMakes.map((val, key) => val.key ) : null;
         let availableMakes = [];
         let availableModels = [];
         let availableEngines = [];

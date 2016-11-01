@@ -56,9 +56,7 @@ class Specifications extends Component {
             wipers = specs.wipers ? `Wipers: ${specs.wipers}\n` : '';
             rearWiper = specs.rearWiper ? `Rear Wiper: ${specs.rearWiper}\n` : '';
             battery = specs.battery ? `Battery: ${specs.battery}\n` : '';
-        }
-        console.log(oilCap);        
-        // // const copiedText = `${this.props.year} ${this.props.make} ${this.props.model} ${this.props.engine} L\nOil Cap: ${this.props.data.oilCap} Qts.\nWeight:${this.props.data.recWeight || '5W30'}\nOil Filter: ${this.props.data.oilFilter}\nAir Filter: ${this.props.data.airFilter}\nCabin Filter: ${this.props.data.cabinFilter}\nWipers: ${this.props.data.wipers}\nRear Wiper: ${this.props.data.rearWiper || 'None'}\nBattery: ${this.props.data.battery || null}`;
+        }        
         const copiedText =  `${this.props.year} ${this.props.make} ${this.props.model} ${this.props.engine} L\n${oilCap}${oilFilter}${recWeight}${airFilter}${cabinFilter}${wipers}${rearWiper}${battery}`;
         return (
             <div className="col-xs-12">
@@ -74,7 +72,7 @@ class Specifications extends Component {
                         {specs.rearWiper ? <h4 id="" className="lead"><em>Rear Wiper:</em> <strong>{specs.rearWiper}</strong></h4> : null}
                         {specs.battery ? <h4 className="lead" id="battery"><em>Battery:</em> <strong>{specs.battery}</strong></h4> : null}
                     </div>                    
-                    <button className="btn btn-success mr-1 hidden-print" onClick={this.printWindow}><i className="fa fa-print"></i> Print</button>
+                    <button id="printSpecs" className="btn btn-success mr-1 hidden-print" onClick={this.printWindow}><i className="fa fa-print"></i> Print</button>                    
                     <button id="copyButton" className="btn btn-info hidden-print" onClick={this.copyToClipboard} data-clipboard-text={copiedText}><i className="fa fa-clipboard"></i> Copy To Clipboard</button>
                     <Tooltip placement="top" isOpen={this.state.tooltipOpen} target="copyButton" >
                         Copied!
