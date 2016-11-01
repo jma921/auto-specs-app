@@ -1,3 +1,5 @@
+[![Build Status](https://semaphoreci.com/api/v1/jma921/auto-specs-app/branches/master/badge.svg)](https://semaphoreci.com/jma921/auto-specs-app)
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.  
