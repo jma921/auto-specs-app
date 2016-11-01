@@ -36,6 +36,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "CI-test": "CI=true npm test",
     "eject": "react-scripts eject",
     "compile": "sass --update node_modules/bootstrap/scss/bootstrap.scss:src/bootstrap.css",
     "deploy": "npm run build && firebase deploy"
