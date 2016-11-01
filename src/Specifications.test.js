@@ -33,3 +33,10 @@ it('engine should be 2.0', () => {
 it('data.oilCap should be 5.3', () => {  
   expect(wrapper.instance().props.data.oilCap).toBe("5.3");
 });
+
+it('print button should open print window', () => {  
+  // const printWindow = sinon.spy();
+  // const printButton = shallow(<button id="printSpecs" className="btn btn-success mr-1 hidden-print" onClick={printWindow}><i className="fa fa-print"></i> Print</button>);
+  // wrapper.find('#printSpecs').simulate('click');
+  // expect(printWindow.calledOnce).to.equal(true);  
+});
