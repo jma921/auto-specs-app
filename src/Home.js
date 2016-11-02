@@ -317,7 +317,13 @@ class Home extends Component {
         }
 
         let previousTen = this.state.previousVehicles.map((vehicle, key) => {
-            return <HistoryVehicle data={vehicle} key={key} handleClick={this.searchVehicle.bind(this)} />;
+            const vehicleSplit = vehicle.split('/');
+            const year = vehicleSplit[0];
+            const make = vehicleSplit[1];
+            const model = vehicleSplit[2];
+            const engine = vehicleSplit[3].replace(',', '.');
+            const vehicleString = `${year} ${make} ${model} ${engine} L`;
+            return <HistoryVehicle data={vehicleString} link={vehicle} key={key} handleClick={this.searchVehicle.bind(this)} />;
         });
 
         return (
