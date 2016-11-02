@@ -5,6 +5,10 @@
     "notAdded" : {
       ".write": "true",
       ".read": "true"
+    },
+    "previousVehicles": {
+      ".write": "true",
+      ".read": "true"
     }
   }
 }

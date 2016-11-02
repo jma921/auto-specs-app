@@ -4,6 +4,7 @@ import axios from 'axios';
 import base from  './utils/base';
 import loadingSpinner from './spinning-bubbles.svg';
 import Specifications from './Specifications';
+import HistoryVehicle from './HistoryVehicle';
 
 var options = [
     { value: '2016', label: '2016' },
@@ -37,8 +38,18 @@ class Home extends Component {
             availableMakes: null,
             makesLoading: false,
             modelsLoading: false,
-            enginesLoading: false
+            enginesLoading: false,
+            previousVehicles: []
         }
+    };
+    replaceVehicle = (v) => {
+        // Replaces the first item in previousVehicles array and adds new one to end
+        let prevVehicles = this.state.previousVehicles;
+        prevVehicles.shift();
+        prevVehicles.push(v);
+        this.setState({
+            previousVehicles: prevVehicles
+        });
     };
     setYear = (e) => {
         if (e === null) {
@@ -138,12 +149,14 @@ class Home extends Component {
             this.refs.vinNumber.value = '';
             return false;
         }
-        const engineSizeFormatted = e.value.replace(',', '.');
+        const engineSizePeriod = e.value.replace(',', '.');
         this.setState({
             loading: true,
             engine: e.value,            
-            engineSizeFormatted: engineSizeFormatted
+            engineSizePeriod: engineSizePeriod
         })
+        const vehicle = `${this.state.year}/${this.state.make}/${this.state.model}/${e.value}`;
+        this.replaceVehicle(vehicle);
         base.bindToState(`${this.state.year}/${this.state.make}/${this.state.model}/${e.value}`, {
             context: this,
             state: 'specs',
@@ -193,10 +206,12 @@ class Home extends Component {
                         model: data.modelName,
                         engine: engineSize,
                         year: data.year,
+                        engineSizeComma: engineSize.toString().replace('.',','),
                         engineSizeFormatted: engineSize
-                    });
-                    const engineSizeFormatted = this.state.engine.toString().replace('.', ',')   
-                    base.fetch(`${this.state.year}/${this.state.make}/${this.state.model}/${engineSizeFormatted}`, {
+                    });                    
+                    const engineSizeComma = this.state.engine.toString().replace('.', ',');
+                    const vehicle = `${this.state.year}/${this.state.make}/${this.state.model}/${engineSizeComma}`;
+                    base.fetch(`${this.state.year}/${this.state.make}/${this.state.model}/${engineSizeComma}`, {
                         context: this,
                         asArray:false
                     }).then(data => {                        
@@ -206,16 +221,20 @@ class Home extends Component {
                                 loading: null,
                                 error: 'This vehicle has not been added yet. We are working on it.'
                             });
-                            base.push(`notAdded/${this.state.year}-${this.state.make}-${this.state.model}-${engineSizeFormatted}`, {
+                            base.push(`notAdded/${this.state.year}-${this.state.make}-${this.state.model}-${this.state.engine}`, {
                                 data: true
                             });                                                        
                             return false;
                         }
-                        base.bindToState(`${this.state.year}/${this.state.make}/${this.state.model}/${engineSizeFormatted}`, {
+                        base.bindToState(`${this.state.year}/${this.state.make}/${this.state.model}/${engineSizeComma}`, {
                             context: this,
                             state: 'specs',
                             asArray: false
                         });
+
+                        // Replace vehicle in last 10 array
+                        this.replaceVehicle(vehicle);
+
                         this.setState({
                             error: null,
                             loading: null,
@@ -223,7 +242,7 @@ class Home extends Component {
                         })
                     }).catch(error => {
                         console.log(error);
-                    })  
+                    })
                 }).catch(err => {
                     console.log(err);
                     this.refs.vinNumber.value = '';
@@ -233,6 +252,40 @@ class Home extends Component {
                     })
                 })
         }
+    };
+    searchVehicle = (vehicle) => {
+        console.log(vehicle);
+        const vehicleSplit = vehicle.split('/');
+        const year = vehicleSplit[0];
+        const make = vehicleSplit[1];
+        const model = vehicleSplit[2];
+        const engine = vehicleSplit[3];
+        const vehicleString = `${year}/${make}/${model}/${engine}`;
+        console.log(vehicleSplit);
+
+        base.bindToState(`${vehicleString}`, {
+            context: this,
+            state: 'specs',
+            asArray: false
+        });
+
+        this.setState({
+            year: year,
+            make: make,
+            model: model,
+            engine: engine,
+            engineSizePeriod: engine.replace(',','.'),
+            error: null,
+            loading: null,
+            showSpecs: true
+        })
+    };
+    componentDidMount() {
+        base.syncState(`previousVehicles`,{
+            context: this,
+            state: 'previousVehicles',
+            asArray: true
+        })
     };
     render() {
         function logChange(val) {
@@ -262,9 +315,24 @@ class Home extends Component {
         } else {
             loadingStatus = null;
         }
+
+        let previousTen = this.state.previousVehicles.map((vehicle, key) => {
+            return <HistoryVehicle data={vehicle} key={key} handleClick={this.searchVehicle.bind(this)} />;
+        });
+
         return (
             <div>
-                <div className="row mt-3">                    
+                <div className="row mt-3">
+                    <div className="col-xs-12">
+                        <h3 className="mb-1">Previous Vehicles</h3>
+                    </div>
+                    <div>
+                        {
+                            previousTen
+                        }
+                    </div>
+                </div>
+                <div className="row mt-1">                    
                     <div className="col-xs-12 hidden-print">                                                                                      
                         <form className="col-sm-4 offset-sm-4" onSubmit={this.submitVin}>
                             <div className="form-group">
@@ -284,7 +352,7 @@ class Home extends Component {
                             </div>                   
                         </form>
                     </div>
-                </div>
+                </div>                
                 <div className="row hidden-print">
                     <div className="col-xs-3">
                         <Select
@@ -324,7 +392,7 @@ class Home extends Component {
                 </div>
                 <div className="row">                    
                     {                         
-                        this.state.showSpecs ? <Specifications make={this.state.make} model={this.state.model} year={this.state.year} engine={this.state.engineSizeFormatted} data={this.state.specs} /> 
+                        this.state.showSpecs ? <Specifications make={this.state.make} model={this.state.model} year={this.state.year} engine={this.state.engineSizePeriod} data={this.state.specs} /> 
                                              : loadingStatus
                     }
                 </div>
