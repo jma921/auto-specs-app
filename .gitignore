@@ -5,8 +5,6 @@ node_modules
 .sass-cache
 .firebaserc
 .database.rules.json
-firebase.json
-src/utils/base.js
 .env
 build/*
 
