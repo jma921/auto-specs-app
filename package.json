@@ -31,7 +31,8 @@
     "unmockedModulePathPatterns": [
       "node_modules/react/",
       "node_modules/enzyme/",
-      "node_modules/reactstrap/lib"
+      "node_modules/reactstrap/lib",
+      "src/utils/"
     ]
   },
   "scripts": {
