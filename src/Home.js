@@ -221,7 +221,7 @@ class Home extends Component {
                                 loading: null,
                                 error: 'This vehicle has not been added yet. We are working on it.'
                             });
-                            base.push(`notAdded/${this.state.year}-${this.state.make}-${this.state.model}-${this.state.engine}`, {
+                            base.push(`notAdded/${this.state.year}-${this.state.make}-${this.state.model}-${this.state.engineComma}`, {
                                 data: true
                             });                                                        
                             return false;
