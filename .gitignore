@@ -3,8 +3,6 @@
 .LSOverride
 node_modules
 .sass-cache
-.firebaserc
-.database.rules.json
 .env
 build/*
 
