@@ -360,7 +360,7 @@ class Home extends Component {
                     </div>
                 </div>                
                 <div className="row hidden-print">
-                    <div className="col-xs-3">
+                    <div className="col-sm-3 mb-1">
                         <Select
                             name="form-field-year"
                             value={this.state.year}
@@ -368,7 +368,7 @@ class Home extends Component {
                             onChange={this.setYear}
                         />  
                     </div>
-                    <div className="col-xs-3">
+                    <div className="col-sm-3 mb-1">
                         <Select
                             name="form-field-make"
                             value={this.state.make}
@@ -377,7 +377,7 @@ class Home extends Component {
                             isLoading={this.state.makesLoading}
                         />  
                     </div>
-                    <div className="col-xs-3">
+                    <div className="col-sm-3 mb-1">
                         <Select
                             name="form-field-model"
                             value={this.state.model}
@@ -386,7 +386,7 @@ class Home extends Component {
                             isLoading={this.state.modelsLoading}
                         />  
                     </div>
-                    <div className="col-xs-3">
+                    <div className="col-sm-3 mb-1">
                         <Select
                             name="form-field-engine"
                             value={this.state.engine}

@@ -36,7 +36,7 @@ class Specifications extends Component {
             console.info('Text:', e.text);
             console.info('Trigger:', e.trigger);
 
-        e.clearSelection();
+            e.clearSelection();
         }.bind(this));
 
         clipboard.on('error', function(e) {
@@ -71,6 +71,7 @@ class Specifications extends Component {
                         {specs.wipers ? <h4 id="wipers" className="lead"><em>Front Wipers:</em> <strong>{specs.wipers}</strong></h4> : null}
                         {specs.rearWiper ? <h4 id="" className="lead"><em>Rear Wiper:</em> <strong>{specs.rearWiper}</strong></h4> : null}
                         {specs.battery ? <h4 className="lead" id="battery"><em>Battery:</em> <strong>{specs.battery}</strong></h4> : null}
+                        {specs.oilReset ? <h4 className="lead" id="oilReset"><em>Oil Reset: </em><small>{specs.oilReset}</small></h4> : null}
                     </div>                    
                     <button id="printSpecs" className="btn btn-success mr-1 hidden-print" onClick={this.printWindow}><i className="fa fa-print"></i> Print</button>                    
                     <button id="copyButton" className="btn btn-info hidden-print" onClick={this.copyToClipboard} data-clipboard-text={copiedText}><i className="fa fa-clipboard"></i> Copy To Clipboard</button>
