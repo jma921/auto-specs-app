@@ -11,7 +11,7 @@ class HistoryVehicle extends Component {
         
         return (
             <div>
-                <div className="col-xs-3">
+                <div className="col-sm-4 col-md-3">
                     <button onClick={this.searchVehicle} className="btn btn-link">{this.props.data}</button>
                 </div>
             </div>

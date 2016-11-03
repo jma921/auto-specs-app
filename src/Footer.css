@@ -1,0 +1,13 @@
+.footer {
+    background-color: #2980b9;
+    bottom: 0;
+    padding: 1rem 0;
+}
+
+.footer a {
+    color: #ecf0f1;
+}
+
+.footer a:hover {
+    color: #ecf0f1;
+}
