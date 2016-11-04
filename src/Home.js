@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import base from  './utils/base';
+import {formatEngine} from './utils/helpers'; 
 import loadingSpinner from './spinning-bubbles.svg';
 import Specifications from './Specifications';
 import HistoryVehicle from './HistoryVehicle';
@@ -41,6 +42,22 @@ class Home extends Component {
             enginesLoading: false,
             previousVehicles: []
         }
+    };
+    clearSelects = () => {
+        this.setState({
+            year: null,
+            make: null,
+            model: null,
+            engine: null,
+            showSpecs: null        
+        })
+    };
+    clearVIN = () => {
+        this.refs.vinNumber.value = '';
+    };
+    clearForm = () => {
+        this.clearSelects();
+        this.clearVIN();
     };
     replaceVehicle = (v) => {
         // Replaces the first item in previousVehicles array and adds new one to end
@@ -149,11 +166,12 @@ class Home extends Component {
             this.refs.vinNumber.value = '';
             return false;
         }
-        const engineSizePeriod = e.value.replace(',', '.');
+        // const engineSizePeriod = e.value.replace(',', '.');
+        const engineSizePeriod = formatEngine(e.value);
         this.setState({
             loading: true,
             engine: e.value,            
-            engineSizePeriod: engineSizePeriod
+            engineFormatted: engineSizePeriod
         })
         const vehicle = `${this.state.year}/${this.state.make}/${this.state.model}/${e.value}`;
         this.replaceVehicle(vehicle);
@@ -164,6 +182,11 @@ class Home extends Component {
         });
         this.refs.vinNumber.value = '';
         this.setState({
+            displayYear: this.state.year,
+            displayMake: this.state.make,
+            displayModel: this.state.model,
+            displayEngine: e.value,
+            displayEngineFormatted: engineSizePeriod,
             error: null,
             loading: null,
             showSpecs: true
@@ -200,15 +223,21 @@ class Home extends Component {
                     } else {
                         engineSize = data.engineSize;
                     }
+                    
                     this.setState({
+                        displayYear: data.year,
+                        displayMake: data.makeName,
+                        displayModel: data.modelName,
+                        displayEngine: engineSize,
+                        displayEngineFormatted: engineSize,
                         error: null,
                         make: data.makeName,
                         model: data.modelName,
                         engine: engineSize,
                         year: data.year,
                         engineSizeComma: engineSize.toString().replace('.',','),
-                        engineSizeFormatted: engineSize
-                    });                    
+                        engineFormatted: engineSize
+                    });              
                     const engineSizeComma = this.state.engine.toString().replace('.', ',');
                     const vehicle = `${this.state.year}/${this.state.make}/${this.state.model}/${engineSizeComma}`;
                     base.fetch(`${this.state.year}/${this.state.make}/${this.state.model}/${engineSizeComma}`, {
@@ -254,7 +283,7 @@ class Home extends Component {
         }
     };
     searchVehicle = (vehicle) => {
-        console.log(vehicle);
+        this.clearSelects();
         const vehicleSplit = vehicle.split('/');
         const year = vehicleSplit[0];
         const make = vehicleSplit[1];
@@ -270,11 +299,11 @@ class Home extends Component {
         });
 
         this.setState({
-            year: year,
-            make: make,
-            model: model,
-            engine: engine,
-            engineSizePeriod: engine.replace(',','.'),
+            displayYear: year,
+            displayMake: make,
+            displayModel: model,
+            displayEngine: engine,
+            displayEngineFormatted: formatEngine(engine),
             error: null,
             loading: null,
             showSpecs: true
@@ -311,7 +340,7 @@ class Home extends Component {
         }
         let loadingStatus;
         if (this.state.loading) {
-            loadingStatus = <div className="mt-3"><img src={loadingSpinner} alt="" /></div>;
+            loadingStatus = <div className="mt-3 mb-3 col-xs"><img src={loadingSpinner} alt="" /></div>;
         } else {
             loadingStatus = null;
         }
@@ -328,15 +357,15 @@ class Home extends Component {
 
         return (
             <div>
-                <div className="row mt-3">
+                <div className="row mt-3 hidden-print">
                     <div className="col-xs-12">
-                        <h3 className="mb-1">Previous Vehicles</h3>
-                    </div>
-                    <div>
-                        {
-                            previousTen
-                        }
-                    </div>
+                        <h3 className="mb-1">Previous Vehicles</h3>                        
+                    </div>                    
+                </div>
+                <div className="row">
+                    {
+                        previousTen
+                    }
                 </div>
                 <div className="row mt-1">                    
                     <div className="col-xs-12 hidden-print">                                                                                      
@@ -352,9 +381,9 @@ class Home extends Component {
                                 <h3>Enter VIN Number</h3>
                                 <input className="form-control" type="text" ref="vinNumber" />                                
                             </div>
-                            <div className="form-group">
-                                
-                                <button className="btn btn-primary" type="submit"><i className="fa fa-check"></i> Submit</button>
+                            <div className="form-group">                                
+                                <button className="btn btn-primary mr-1" type="submit"><i className="fa fa-check"></i> Submit</button>
+                                <button className="btn btn-danger" onClick={this.clearForm}><i className="fa fa-trash"></i> Clear</button>
                             </div>                   
                         </form>
                     </div>
@@ -396,9 +425,10 @@ class Home extends Component {
                         />  
                     </div>
                 </div>
+               
                 <div className="row">                    
                     {                         
-                        this.state.showSpecs ? <Specifications make={this.state.make} model={this.state.model} year={this.state.year} engine={this.state.engineSizePeriod} data={this.state.specs} /> 
+                        this.state.showSpecs ? <Specifications make={this.state.displayMake} model={this.state.displayModel} year={this.state.displayYear} engine={this.state.displayEngineFormatted} data={this.state.specs} /> 
                                              : loadingStatus
                     }
                 </div>

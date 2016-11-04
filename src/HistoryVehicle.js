@@ -10,10 +10,8 @@ class HistoryVehicle extends Component {
     render() {
         
         return (
-            <div>
-                <div className="col-sm-4 col-md-3">
-                    <button onClick={this.searchVehicle} className="btn btn-link">{this.props.data}</button>
-                </div>
+            <div className="col-xs-12 col-sm-4 col-md-3 hidden-print">
+                <button onClick={this.searchVehicle} className="btn btn-link text-xs-center">{this.props.data}</button>
             </div>
         );
     }

@@ -13,6 +13,10 @@ class Specifications extends Component {
     printWindow = (e) => {
         window.print();
     };
+    reportError = (e) => {
+        e.preventDefault();
+        alert('This will do something one day.');
+    };
     toggleTooltip = (ms) => {
         // ms = length of timeout
         this.setState({
@@ -61,7 +65,7 @@ class Specifications extends Component {
         return (
             <div className="col-xs-12">
                 <div className="jumbotron mt-2">
-                    <div className="row">
+                    <div className="">
                         <h2 id="model" >{this.props.year} {this.props.make} {this.props.model} {this.props.engine} L</h2>
                         <h4 id="oilCap" className="lead"><em>Oil Capacity:</em> <strong>{specs.oilCap} Quarts</strong></h4>
                         <h4 id="recWeight" className="lead"><em>Oil Specification:</em> <strong>{specs.recWeight}</strong></h4>
@@ -75,6 +79,9 @@ class Specifications extends Component {
                     </div>                    
                     <button id="printSpecs" className="btn btn-success mr-1 hidden-print" onClick={this.printWindow}><i className="fa fa-print"></i> Print</button>                    
                     <button id="copyButton" className="btn btn-info hidden-print" onClick={this.copyToClipboard} data-clipboard-text={copiedText}><i className="fa fa-clipboard"></i> Copy To Clipboard</button>
+                    <div className="col-xs">
+                        <button className="btn btn-link hidden-print" onClick={this.reportError}>Report An Error</button>
+                    </div>
                     <Tooltip placement="top" isOpen={this.state.tooltipOpen} target="copyButton" >
                         Copied!
                     </Tooltip>                    
