@@ -382,12 +382,16 @@ class Home extends Component {
                                 <input className="form-control" type="text" ref="vinNumber" />                                
                             </div>
                             <div className="form-group">                                
-                                <button className="btn btn-primary mr-1" type="submit"><i className="fa fa-check"></i> Submit</button>
-                                <button className="btn btn-danger" onClick={this.clearForm}><i className="fa fa-trash"></i> Clear</button>
+                                <button className="btn btn-primary" type="submit"><i className="fa fa-check"></i> Submit</button>                                
                             </div>                   
-                        </form>
+                        </form>                        
                     </div>
-                </div>                
+                </div>   
+                <div className="row">
+                    <div className="col-xs">
+                        <button className="btn btn-link mb-2" onClick={this.clearForm}><i className="fa fa-trash"></i> Clear</button>
+                    </div>
+                </div>             
                 <div className="row hidden-print">
                     <div className="col-sm-3 mb-1">
                         <Select
