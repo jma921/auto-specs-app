@@ -6,6 +6,7 @@ import {formatEngine} from './utils/helpers';
 import loadingSpinner from './spinning-bubbles.svg';
 import Specifications from './Specifications';
 import HistoryVehicle from './HistoryVehicle';
+import Messages from './Messages';
 
 var options = [
     { value: '2016', label: '2016' },
@@ -315,6 +316,11 @@ class Home extends Component {
             state: 'previousVehicles',
             asArray: true
         })
+        base.bindToState(`messages`, {
+            context: this,
+            state: 'messages',
+            asArray: true
+        })
     };
     render() {
         function logChange(val) {
@@ -428,7 +434,7 @@ class Home extends Component {
                             isLoading={this.state.enginesLoading}
                         />  
                     </div>
-                </div>
+                </div>                
                
                 <div className="row">                    
                     {                         
@@ -436,6 +442,13 @@ class Home extends Component {
                                              : loadingStatus
                     }
                 </div>
+
+                <div className="row flex-items-xs-center mt-1">
+                    <div className="col-xs-8">
+                        <Messages data="Test" />
+                    </div>
+                </div>
+
             </div>                
         );
     }

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import base from './utils/base';
 import Clipboard from 'clipboard';
-import { Tooltip } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'reactstrap';
 
 
 class Specifications extends Component {
     constructor() {
         super()
         this.state = {
-            tooltipOpen: null
+            tooltipOpen: null,
+            modal: false,
+            showSuccess: false,
+            showError: false
         }
     }
     printWindow = (e) => {
@@ -15,6 +19,7 @@ class Specifications extends Component {
     };
     reportError = (e) => {
         e.preventDefault();
+        // this.props.handleClick();
         alert('This will do something one day.');
     };
     toggleTooltip = (ms) => {
@@ -27,6 +32,51 @@ class Specifications extends Component {
                 tooltipOpen: null
             })
         }, ms)
+    };
+    toggleModal = () => {
+        this.setState({
+            modal: !this.state.modal
+        })
+    };
+    submitErrorForm = (e) => {
+        console.log(e);
+        e.preventDefault();        
+        const name = this.refs.name.value;
+        const errorReported = this.refs.errorReported.value;
+        if (!name && !errorReported) {
+            this.setState({
+                showError: "Please enter your name and the error."
+            })
+            return;
+        } 
+        if (!name) {
+            this.setState({
+                showError: "Please enter your name."
+            })
+            return;
+        }    
+        if (!errorReported) {
+            this.setState({
+                showError: "Please enter your error."
+            })
+            return;
+        }   
+        
+        console.log(name, errorReported);
+        this.refs.name.value = '';
+        this.refs.errorReported.value = '';
+        base.push('messages', {
+            data: { name: name, error: errorReported}
+        }).then(newLocation => {
+            const generatedKey = newLocation.key
+        }).catch(err => {
+            console.log(err);
+        })
+        setTimeout(() => {
+            this.setState({
+                modal: false
+            })
+        }, 3000)
     };
     copyToClipboard = (e) => {
         e.preventDefault();        
@@ -80,12 +130,38 @@ class Specifications extends Component {
                     <button id="printSpecs" className="btn btn-success mr-1 hidden-print" onClick={this.printWindow}><i className="fa fa-print"></i> Print</button>                    
                     <button id="copyButton" className="btn btn-info hidden-print" onClick={this.copyToClipboard} data-clipboard-text={copiedText}><i className="fa fa-clipboard"></i> Copy To Clipboard</button>
                     <div className="col-xs">
-                        <button className="btn btn-link hidden-print" onClick={this.reportError}>Report An Error</button>
+                        <button className="btn btn-link hidden-print" onClick={this.toggleModal}>Report An Error</button>
                     </div>
                     <Tooltip placement="top" isOpen={this.state.tooltipOpen} target="copyButton" >
                         Copied!
                     </Tooltip>                    
                 </div>
+                <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Report An Error</ModalHeader>
+                        <ModalBody>
+                            <p>Please enter your name and describe the error.</p>
+                            <form onSubmit={this.submitErrorForm}>
+                                <div className="form-group">
+                                    <label htmlFor="name" className="control-label">Name</label>
+                                    <input className="form-control" type="text" name="name" ref="name" />
+                                </div>    
+                                <div className="form-group">
+                                    <label htmlFor="errorReported">Error</label>
+                                    <textarea rows="3" className="form-control" type="text" name="errorReported" ref="errorReported" />
+                                </div>                                                                                            
+                            </form>
+                            {
+                                this.state.showSuccess ? <div className="alert alert-success"><p><strong>Success!</strong> {this.state.showSuccess}</p></div> : null
+                            }
+                            {
+                                this.state.showError ? <div className="alert alert-danger"><p><strong>Error!</strong> {this.state.showError}</p></div> : null
+                            }
+                        </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.submitErrorForm}>Submit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         );
     }
