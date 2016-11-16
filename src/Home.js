@@ -20,7 +20,8 @@ var options = [
     { value: '2008', label: '2008' },
     { value: '2007', label: '2007' },
     { value: '2006', label: '2006' },
-    { value: '2005', label: '2005' }
+    { value: '2005', label: '2005' },
+    { value: '2004', label: '2004' },
 ];  
 
 
@@ -249,7 +250,8 @@ class Home extends Component {
                             console.log('no data');
                             this.setState({
                                 loading: null,
-                                error: 'This vehicle has not been added yet. We are working on it.'
+                                error: 'This vehicle has not been added yet. We are working on it.',
+                                errorType: 'Not In Database'
                             });
                             base.push(`notAdded/${this.state.year}-${this.state.make}-${this.state.model}-${this.state.engineSizeComma}`, {
                                 data: true
@@ -274,11 +276,14 @@ class Home extends Component {
                         console.log(error);
                     })
                 }).catch(err => {
-                    console.log(err);
+                    console.log(err.response);
+                    const errorText = err.response.data.message;
+                    const errorType = err.response.data.errorType;
                     this.refs.vinNumber.value = '';
                     this.setState({
                         loading: null,
-                        error: 'Invalid VIN Number. Please try again.'
+                        error: errorText,
+                        errorType: errorType
                     })
                 })
         }
@@ -319,13 +324,18 @@ class Home extends Component {
         base.bindToState(`messages`, {
             context: this,
             state: 'messages',
-            asArray: true
+            asArray: true,
+            queries: {
+                limitToLast: 10,
+                orderByChild: 'key'
+            }
         })
     };
     render() {
         function logChange(val) {
             console.log("Selected: " + val);
         }
+ 
         let availableMakes = [];
         let availableModels = [];
         let availableEngines = [];
@@ -378,7 +388,7 @@ class Home extends Component {
                         <form className="col-sm-4 offset-sm-4" onSubmit={this.submitVin}>
                             <div className="form-group">
                                 {this.state.error ? <div className="alert alert-danger">
-                                                        <strong>Error!</strong> {this.state.error}
+                                                        <strong>{this.state.errorType}!</strong> {this.state.error}
                                                     </div>
                                                     
                                                     : null}
@@ -443,9 +453,11 @@ class Home extends Component {
                     }
                 </div>
 
-                <div className="row flex-items-xs-center mt-1">
+                <div className="row flex-items-xs-center mt-1 hidden-print">
                     <div className="col-xs-8">
-                        <Messages data="Test" />
+                        {
+                            this.state.messages ? <Messages data={this.state.messages} /> : null
+                        }
                     </div>
                 </div>
 

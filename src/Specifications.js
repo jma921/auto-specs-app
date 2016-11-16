@@ -42,7 +42,7 @@ class Specifications extends Component {
         console.log(e);
         e.preventDefault();        
         const name = this.refs.name.value;
-        const errorReported = this.refs.errorReported.value;
+        const errorReported = `${this.props.year} ${this.props.make} ${this.props.model} ${this.props.engine} ${this.refs.errorReported.value}`;
         if (!name && !errorReported) {
             this.setState({
                 showError: "Please enter your name and the error."
@@ -65,16 +65,23 @@ class Specifications extends Component {
         console.log(name, errorReported);
         this.refs.name.value = '';
         this.refs.errorReported.value = '';
+        const timestamp = Date.now();
+        const key = -Math.abs(Date.now());
         base.push('messages', {
-            data: { name: name, error: errorReported}
+            data: { name: name, error: errorReported, timestamp: timestamp, key: key}
         }).then(newLocation => {
-            const generatedKey = newLocation.key
+            const generatedKey = newLocation.key;
+            this.setState({
+                showSuccess: 'Thanks for your input. This box will close in 3 seconds.'
+            })
         }).catch(err => {
             console.log(err);
         })
         setTimeout(() => {
             this.setState({
-                modal: false
+                modal: false,
+                showSuccess: null,
+                showError: null
             })
         }, 3000)
     };

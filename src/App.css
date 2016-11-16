@@ -32,3 +32,10 @@
 .App-content {
   flex: 1;
 }
+
+.divider {
+  border-bottom: 1px solid #bdc3c7;
+  width: 100%;
+  margin: 1rem;
+  padding: 0;
+}

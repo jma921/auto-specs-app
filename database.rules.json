@@ -9,6 +9,11 @@
     "previousVehicles": {
       ".write": "true",
       ".read": "true"
+    },
+    "messages": {
+      ".indexOn": "timestamp",
+      ".write": "true",
+        ".read": "true"
     }
   }
 }
