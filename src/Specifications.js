@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import base from './utils/base';
 import Clipboard from 'clipboard';
+import './Specifications.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip } from 'reactstrap';
 
 
@@ -116,18 +117,33 @@ class Specifications extends Component {
             cabinFilter = specs.cabinFilter ? `Cabin Filter: ${specs.cabinFilter}\n` : '';
             wipers = specs.wipers ? `Wipers: ${specs.wipers}\n` : '';
             rearWiper = specs.rearWiper ? `Rear Wiper: ${specs.rearWiper}\n` : '';
-            battery = specs.battery ? `Battery: ${specs.battery}\n` : '';
+            battery = specs.battery ? `Battery: ${specs.battery}\n` : '';            
         }        
         const copiedText =  `${this.props.year} ${this.props.make} ${this.props.model} ${this.props.engine} L\n${oilCap}${oilFilter}${recWeight}${airFilter}${cabinFilter}${wipers}${rearWiper}${battery}`;
+        let oilFilterCrossLink,
+            airFilterCrossLink;
+        if (specs.oilFilter !== undefined) {
+            if (specs.oilFilter.substr(0,1) === 'P') {
+                oilFilterCrossLink = `http://www.oilfilter-crossreference.com/convert/AC-Delco/${specs.oilFilter}`;
+            } else {
+                oilFilterCrossLink = 'none';
+            }
+        }
+        if (specs.airFilter !== undefined) {
+            if (specs.airFilter.substr(0,1) === 'A') {
+                airFilterCrossLink = `http://www.airfilter-crossreference.com/convert/AC-DELCO/${specs.airFilter}`
+            }
+        }
         return (
             <div className="col-xs-12">
                 <div className="jumbotron mt-2">
-                    <div className="">
+                    <div className="">                        
                         <h2 id="model" >{this.props.year} {this.props.make} {this.props.model} {this.props.engine} L</h2>
+                        <p className="crossReferenceInfo">Click on air filter or oil filter for cross reference info if available.</p>
                         <h4 id="oilCap" className="lead"><em>Oil Capacity:</em> <strong>{specs.oilCap} Quarts</strong></h4>
                         <h4 id="recWeight" className="lead"><em>Oil Specification:</em> <strong>{specs.recWeight}</strong></h4>
-                        <h4 id="oilFilter" className="lead"><em>Oil Filter:</em> <strong>{specs.oilFilter}</strong></h4>
-                        {specs.airFilter ? <h4 id="airFilter" className="lead"><em>Air Filter:</em> <strong>{specs.airFilter}</strong></h4> : null}                
+                        <h4 id="oilFilter" className="lead"><em>Oil Filter:</em> <strong><a href={oilFilterCrossLink} target="_blank">{specs.oilFilter}</a></strong></h4>
+                        {specs.airFilter ? <h4 id="airFilter" className="lead"><em>Air Filter:</em> <strong><a href={airFilterCrossLink} target="_blank">{specs.airFilter}</a></strong></h4> : null}                
                         {specs.cabinFilter ? <h4 id="cabinFilter" className="lead"><em>Cabin Filter:</em> <strong>{specs.cabinFilter}</strong></h4> : null}
                         {specs.wipers ? <h4 id="wipers" className="lead"><em>Front Wipers:</em> <strong>{specs.wipers}</strong></h4> : null}
                         {specs.rearWiper ? <h4 id="" className="lead"><em>Rear Wiper:</em> <strong>{specs.rearWiper}</strong></h4> : null}

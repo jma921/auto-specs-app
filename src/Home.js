@@ -411,6 +411,7 @@ class Home extends Component {
                 <div className="row hidden-print">
                     <div className="col-sm-3 mb-1">
                         <Select
+                            placeholder="Year"
                             name="form-field-year"
                             value={this.state.year}
                             options={options}
@@ -419,6 +420,7 @@ class Home extends Component {
                     </div>
                     <div className="col-sm-3 mb-1">
                         <Select
+                            placeholder="Make"
                             name="form-field-make"
                             value={this.state.make}
                             options={availableMakes}
@@ -428,6 +430,7 @@ class Home extends Component {
                     </div>
                     <div className="col-sm-3 mb-1">
                         <Select
+                            placeholder="Model"
                             name="form-field-model"
                             value={this.state.model}
                             options={availableModels}
@@ -437,6 +440,7 @@ class Home extends Component {
                     </div>
                     <div className="col-sm-3 mb-1">
                         <Select
+                            placeholder="Engine"
                             name="form-field-engine"
                             value={this.state.engine}
                             options={availableEngines}
