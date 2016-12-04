@@ -11,7 +11,7 @@
       ".read": "true"
     },
     "messages": {
-      ".indexOn": "timestamp",
+      ".indexOn": "key",
       ".write": "true",
         ".read": "true"
     }
